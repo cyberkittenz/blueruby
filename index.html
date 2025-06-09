@@ -3,36 +3,52 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>blue ruby</title>
+  <title>algebra worksheet</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
     body {
-      background: linear-gradient(135deg, #0d1b2a, #1b263b);
-      color: #e0e0e0;
+      background: #f5f5f5;
+      color: #111;
       font-family: 'Montserrat', sans-serif;
       margin: 0;
-      padding: 2rem 1rem;
+      padding: 2rem;
       display: flex;
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
       box-sizing: border-box;
     }
-    h1 {
-      font-weight: 600;
-      color: #f72585; /* ruby pink */
-      margin-bottom: 1rem;
+    .stealth-toggle {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      font-size: 0.8rem;
+      background: #ccc;
+      color: #000;
+      padding: 0.3rem 0.6rem;
+      border-radius: 0.3rem;
+      cursor: pointer;
+      border: 1px solid #888;
+      opacity: 0.6;
+      z-index: 999;
+    }
+    .stealth-toggle:hover {
+      opacity: 1;
+    }
+    h1.title, p.subtitle {
+      color: #f72585;
       text-transform: lowercase;
       letter-spacing: 0.1em;
-      font-size: 3rem;
       user-select: none;
     }
-    p.subtitle {
-      color: #8892b0;
-      margin: 0 0 2rem;
-      font-size: 1rem;
+    .title {
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    .subtitle {
+      margin-bottom: 2rem;
       font-style: italic;
-      user-select: none;
     }
     .input-container {
       width: 100%;
@@ -44,17 +60,10 @@
       flex-grow: 1;
       padding: 0.75rem 1rem;
       font-size: 1.1rem;
-      border: none;
+      border: 1px solid #ccc;
       border-radius: 0.5rem;
-      outline: none;
-      box-shadow: 0 0 8px #f72585aa;
-      background: #162447;
-      color: #e0e0e0;
-      transition: box-shadow 0.3s ease;
-    }
-    input[type="text"]:focus {
-      box-shadow: 0 0 12px #f72585ff;
-      background: #1f4068;
+      background: #fff;
+      color: #111;
     }
     button {
       background: #f72585;
@@ -65,41 +74,43 @@
       border-radius: 0.5rem;
       cursor: pointer;
       font-weight: 600;
-      box-shadow: 0 0 12px #f72585cc;
-      transition: background 0.3s ease;
-      user-select: none;
-    }
-    button:hover {
-      background: #d31f72;
-      box-shadow: 0 0 16px #d31f72cc;
     }
     iframe {
       margin-top: 2rem;
       width: 100%;
       max-width: 900px;
       height: 75vh;
-      border-radius: 0.75rem;
-      border: 2px solid #f72585;
-      box-shadow: 0 0 20px #f72585aa;
-      background: #0d1b2a;
-      display: block;
+      border: 1px solid #ccc;
+      border-radius: 0.5rem;
+      background: #fff;
+      display: none;
     }
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 2rem;
-      }
-      .input-container {
-        flex-direction: column;
-      }
-      button {
-        width: 100%;
-        padding: 0.75rem;
-      }
+    .stealth-mode .title, .stealth-mode .subtitle {
+      display: none;
+    }
+    .stealth-mode .input-container input, .stealth-mode button {
+      box-shadow: none;
+    }
+    .stealth-mode body {
+      background: #fff !important;
+      color: #000 !important;
+    }
+    .fake-math-title {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 1rem;
+    }
+    .fake-math-desc {
+      font-size: 0.9rem;
+      color: #555;
+      margin-bottom: 2rem;
     }
   </style>
 </head>
 <body>
-  <h1>blue ruby</h1>
+  <div class="stealth-toggle" onclick="toggleStealth()">toggle stealth</div>
+  <h1 class="title">blue ruby</h1>
   <p class="subtitle">heya! pop your link down below!</p>
   <div class="input-container">
     <input
@@ -113,8 +124,11 @@
     />
     <button onclick="loadProxy()">go</button>
   </div>
-  <iframe id="proxyFrame" sandbox="allow-scripts allow-same-origin"></iframe>
-
+  <div class="fake-math-title" id="fakeTitle" style="display: none;">Algebra 1 Practice Worksheet</div>
+  <div class="fake-math-desc" id="fakeDesc" style="display: none;">
+    Solve for x in the following problems. Be sure to show your work!
+  </div>
+  <iframe id="proxyFrame" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
   <script>
     function loadProxy() {
       const input = document.getElementById('url').value.trim();
@@ -122,16 +136,24 @@
         alert("in order for it to work, you've gotta enter a url first!");
         return;
       }
-      // basic URL validation
-      try {
-        new URL(input);
-      } catch {
-        alert('pls enter a valid url starting with https:// or http://');
-        return;
+      let finalUrl = input;
+      if (!/^https?:\/\//i.test(finalUrl)) {
+        finalUrl = 'https://' + finalUrl;
       }
-      const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(input);
+      const encodedUrl = btoa(finalUrl);
+      const proxyUrl = `https://uvcat.vercel.app/service/${encodedUrl}`;
       const iframe = document.getElementById('proxyFrame');
+      iframe.style.display = 'block';
       iframe.src = proxyUrl;
+    }
+
+    function toggleStealth() {
+      document.body.classList.toggle('stealth-mode');
+      const fakeTitle = document.getElementById('fakeTitle');
+      const fakeDesc = document.getElementById('fakeDesc');
+      const isStealth = document.body.classList.contains('stealth-mode');
+      fakeTitle.style.display = isStealth ? 'block' : 'none';
+      fakeDesc.style.display = isStealth ? 'block' : 'none';
     }
   </script>
 </body>
