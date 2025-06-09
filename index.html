@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>algebra worksheet</title>
+  <title>reading comprehension - ela</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
     body {
@@ -95,16 +95,27 @@
       background: #fff !important;
       color: #000 !important;
     }
-    .fake-math-title {
+    .fake-ela-container {
+      max-width: 720px;
+      text-align: left;
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      display: none;
+    }
+    .fake-ela-title {
       font-size: 1.2rem;
       font-weight: bold;
-      color: #333;
       margin-bottom: 1rem;
     }
-    .fake-math-desc {
-      font-size: 0.9rem;
-      color: #555;
+    .fake-ela-article {
+      font-size: 0.95rem;
+      line-height: 1.6;
       margin-bottom: 2rem;
+    }
+    .fake-ela-questions li {
+      margin-bottom: 1rem;
     }
   </style>
 </head>
@@ -124,9 +135,16 @@
     />
     <button onclick="loadProxy()">go</button>
   </div>
-  <div class="fake-math-title" id="fakeTitle" style="display: none;">Algebra 1 Practice Worksheet</div>
-  <div class="fake-math-desc" id="fakeDesc" style="display: none;">
-    Solve for x in the following problems. Be sure to show your work!
+  <div class="fake-ela-container" id="fakeELA">
+    <div class="fake-ela-title">ELA Reading Comprehension</div>
+    <div class="fake-ela-article">
+      <p>Climate change has become one of the most significant global challenges of our time. Scientists agree that human activities have accelerated the rate of global warming, largely due to the burning of fossil fuels. Rising temperatures lead to sea-level rise, more frequent extreme weather events, and loss of biodiversity. Addressing this crisis requires cooperation across nations and a commitment to sustainable practices.</p>
+    </div>
+    <ul class="fake-ela-questions">
+      <li>1. What is the main idea of the article?</li>
+      <li>2. Name two effects of climate change mentioned in the article.</li>
+      <li>3. Why is global cooperation important in addressing climate change?</li>
+    </ul>
   </div>
   <iframe id="proxyFrame" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
   <script>
@@ -149,11 +167,9 @@
 
     function toggleStealth() {
       document.body.classList.toggle('stealth-mode');
-      const fakeTitle = document.getElementById('fakeTitle');
-      const fakeDesc = document.getElementById('fakeDesc');
+      const fakeELA = document.getElementById('fakeELA');
       const isStealth = document.body.classList.contains('stealth-mode');
-      fakeTitle.style.display = isStealth ? 'block' : 'none';
-      fakeDesc.style.display = isStealth ? 'block' : 'none';
+      fakeELA.style.display = isStealth ? 'block' : 'none';
     }
   </script>
 </body>
