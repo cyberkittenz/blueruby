@@ -1,29 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Blue Ruby</title>
-<style>
-  body { font-family: sans-serif; margin: 20px; }
-  input { width: 80%; padding: 10px; font-size: 1em; }
-  button { padding: 10px; font-size: 1em; }
-  iframe { width: 100%; height: 80vh; border: 1px solid #ccc; margin-top: 15px; }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>blue ruby</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
+    body {
+      background: linear-gradient(135deg, #0d1b2a, #1b263b);
+      color: #e0e0e0;
+      font-family: 'Montserrat', sans-serif;
+      margin: 0;
+      padding: 2rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+    h1 {
+      font-weight: 600;
+      color: #f72585; /* ruby pink */
+      margin-bottom: 1rem;
+      text-transform: lowercase;
+      letter-spacing: 0.1em;
+      font-size: 3rem;
+      user-select: none;
+    }
+    p.subtitle {
+      color: #8892b0;
+      margin: 0 0 2rem;
+      font-size: 1rem;
+      font-style: italic;
+      user-select: none;
+    }
+    .input-container {
+      width: 100%;
+      max-width: 720px;
+      display: flex;
+      gap: 1rem;
+    }
+    input[type="text"] {
+      flex-grow: 1;
+      padding: 0.75rem 1rem;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 0.5rem;
+      outline: none;
+      box-shadow: 0 0 8px #f72585aa;
+      background: #162447;
+      color: #e0e0e0;
+      transition: box-shadow 0.3s ease;
+    }
+    input[type="text"]:focus {
+      box-shadow: 0 0 12px #f72585ff;
+      background: #1f4068;
+    }
+    button {
+      background: #f72585;
+      color: white;
+      border: none;
+      padding: 0 1.5rem;
+      font-size: 1.1rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-weight: 600;
+      box-shadow: 0 0 12px #f72585cc;
+      transition: background 0.3s ease;
+      user-select: none;
+    }
+    button:hover {
+      background: #d31f72;
+      box-shadow: 0 0 16px #d31f72cc;
+    }
+    iframe {
+      margin-top: 2rem;
+      width: 100%;
+      max-width: 900px;
+      height: 75vh;
+      border-radius: 0.75rem;
+      border: 2px solid #f72585;
+      box-shadow: 0 0 20px #f72585aa;
+      background: #0d1b2a;
+      display: block;
+    }
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2rem;
+      }
+      .input-container {
+        flex-direction: column;
+      }
+      button {
+        width: 100%;
+        padding: 0.75rem;
+      }
+    }
+  </style>
 </head>
 <body>
-  <h1>Blue Ruby</h1>
-  <input type="text" id="url" placeholder="Drop the URL right here!" />
-  <button onclick="loadProxy()">Go</button>
+  <h1>blue ruby</h1>
+  <p class="subtitle">heya! pop your link down below!</p>
+  <div class="input-container">
+    <input
+      type="text"
+      id="url"
+      placeholder="put your full URL here, example: https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+      autocomplete="off"
+      spellcheck="false"
+      autocorrect="off"
+      autocapitalize="off"
+    />
+    <button onclick="loadProxy()">go</button>
+  </div>
   <iframe id="proxyFrame" sandbox="allow-scripts allow-same-origin"></iframe>
-  
+
   <script>
     function loadProxy() {
-      const input = document.getElementById('url').value;
-      if (!input) return alert('Please enter a URL');
-      // Use allorigins API to bypass CORS and load page in iframe
+      const input = document.getElementById('url').value.trim();
+      if (!input) {
+        alert('please enter a url');
+        return;
+      }
+      // basic URL validation
+      try {
+        new URL(input);
+      } catch {
+        alert('pls enter a valid url starting with https:// or http://');
+        return;
+      }
       const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(input);
-      document.getElementById('proxyFrame').src = proxyUrl;
+      const iframe = document.getElementById('proxyFrame');
+      iframe.src = proxyUrl;
     }
   </script>
 </body>
