@@ -105,7 +105,7 @@
     <input
       type="text"
       id="url"
-      placeholder="put your full URL here, example: https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+      placeholder="put your full URL here, here's an example: https://www.youtube.com/watch?v=dQw4w9WgXcQ"
       autocomplete="off"
       spellcheck="false"
       autocorrect="off"
@@ -119,7 +119,7 @@
     function loadProxy() {
       const input = document.getElementById('url').value.trim();
       if (!input) {
-        alert('please enter a url');
+        alert("in order for it to work, you've gotta enter a url first!");
         return;
       }
       // basic URL validation
