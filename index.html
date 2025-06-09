@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Blue Ruby</title>
+<style>
+  body { font-family: sans-serif; margin: 20px; }
+  input { width: 80%; padding: 10px; font-size: 1em; }
+  button { padding: 10px; font-size: 1em; }
+  iframe { width: 100%; height: 80vh; border: 1px solid #ccc; margin-top: 15px; }
+</style>
+</head>
+<body>
+  <h1>Blue Ruby</h1>
+  <input type="text" id="url" placeholder="Drop the URL right here!" />
+  <button onclick="loadProxy()">Go</button>
+  <iframe id="proxyFrame" sandbox="allow-scripts allow-same-origin"></iframe>
+  
+  <script>
+    function loadProxy() {
+      const input = document.getElementById('url').value;
+      if (!input) return alert('Please enter a URL');
+      // Use allorigins API to bypass CORS and load page in iframe
+      const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(input);
+      document.getElementById('proxyFrame').src = proxyUrl;
+    }
+  </script>
+</body>
+</html>
