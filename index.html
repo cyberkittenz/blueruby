@@ -3,52 +3,38 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>reading comprehension - ela</title>
+  <title>blue ruby proxy</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
     body {
-      background: #f5f5f5;
-      color: #111;
+      background: linear-gradient(135deg, #0d1b2a, #1b263b);
+      color: #e0e0e0;
       font-family: 'Montserrat', sans-serif;
       margin: 0;
-      padding: 2rem;
+      padding: 2rem 1rem;
       display: flex;
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
       box-sizing: border-box;
-    }
-    .stealth-toggle {
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      font-size: 0.8rem;
-      background: #ccc;
-      color: #000;
-      padding: 0.3rem 0.6rem;
-      border-radius: 0.3rem;
-      cursor: pointer;
-      border: 1px solid #888;
-      opacity: 0.6;
-      z-index: 999;
-    }
-    .stealth-toggle:hover {
-      opacity: 1;
+      transition: background 0.3s, color 0.3s;
     }
     h1.title, p.subtitle {
       color: #f72585;
       text-transform: lowercase;
       letter-spacing: 0.1em;
       user-select: none;
+      margin: 0;
     }
-    .title {
-      font-size: 2rem;
+    h1.title {
       font-weight: 600;
+      font-size: 3rem;
       margin-bottom: 1rem;
     }
-    .subtitle {
-      margin-bottom: 2rem;
+    p.subtitle {
       font-style: italic;
+      margin-bottom: 2rem;
+      font-size: 1rem;
     }
     .input-container {
       width: 100%;
@@ -60,10 +46,17 @@
       flex-grow: 1;
       padding: 0.75rem 1rem;
       font-size: 1.1rem;
-      border: 1px solid #ccc;
+      border: none;
       border-radius: 0.5rem;
-      background: #fff;
-      color: #111;
+      outline: none;
+      box-shadow: 0 0 8px #f72585aa;
+      background: #162447;
+      color: #e0e0e0;
+      transition: box-shadow 0.3s ease;
+    }
+    input[type="text"]:focus {
+      box-shadow: 0 0 12px #f72585ff;
+      background: #1f4068;
     }
     button {
       background: #f72585;
@@ -74,55 +67,125 @@
       border-radius: 0.5rem;
       cursor: pointer;
       font-weight: 600;
+      box-shadow: 0 0 12px #f72585cc;
+      transition: background 0.3s ease;
+      user-select: none;
+    }
+    button:hover {
+      background: #d31f72;
+      box-shadow: 0 0 16px #d31f72cc;
     }
     iframe {
       margin-top: 2rem;
       width: 100%;
       max-width: 900px;
       height: 75vh;
-      border: 1px solid #ccc;
-      border-radius: 0.5rem;
-      background: #fff;
+      border-radius: 0.75rem;
+      border: 2px solid #f72585;
+      box-shadow: 0 0 20px #f72585aa;
+      background: #0d1b2a;
       display: none;
     }
-    .stealth-mode .title,
-    .stealth-mode .subtitle,
+    /* Stealth mode styles */
+    .stealth-mode {
+      background: #fff !important;
+      color: #000 !important;
+    }
+    .stealth-mode h1.title,
+    .stealth-mode p.subtitle,
     .stealth-mode .input-container,
     .stealth-mode iframe {
       display: none;
     }
-    .stealth-mode body {
-      background: #fff !important;
-      color: #000 !important;
-    }
-    .fake-ela-container {
+    .stealth-article-container {
       max-width: 720px;
-      text-align: left;
       background: #fff;
-      padding: 1.5rem;
+      color: #111;
+      font-family: 'Montserrat', sans-serif;
+      padding: 2rem;
       border-radius: 0.5rem;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      box-shadow: 0 0 15px #ccc;
+      line-height: 1.5;
       display: none;
     }
-    .fake-ela-title {
-      font-size: 1.2rem;
-      font-weight: bold;
-      margin-bottom: 1rem;
+    .stealth-article-container h2 {
+      margin-top: 0;
+      color: #333;
     }
-    .fake-ela-article {
-      font-size: 0.95rem;
-      line-height: 1.6;
-      margin-bottom: 2rem;
-    }
-    .fake-ela-questions li {
+    .stealth-article-container p {
       margin-bottom: 1rem;
+      color: #444;
+    }
+    .stealth-article-container h3 {
+      color: #555;
+      margin-bottom: 0.5rem;
+      margin-top: 1.5rem;
+    }
+    .stealth-question {
+      margin-top: 1.5rem;
+      font-weight: 600;
+      color: #222;
+    }
+    .stealth-answer {
+      width: 100%;
+      margin-top: 0.5rem;
+      margin-bottom: 1rem;
+      padding: 0.5rem 0.75rem;
+      font-size: 1rem;
+      border: 1px solid #aaa;
+      border-radius: 0.4rem;
+      box-sizing: border-box;
+    }
+    .citation {
+      font-size: 0.8rem;
+      margin-top: 2rem;
+      color: #666;
+      font-style: italic;
+    }
+    /* Stealth toggle button fixed in corner */
+    .stealth-toggle {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      font-size: 0.9rem;
+      background: #ccc;
+      color: #000;
+      padding: 0.4rem 0.8rem;
+      border-radius: 0.3rem;
+      cursor: pointer;
+      border: 1px solid #888;
+      opacity: 0.7;
+      z-index: 999;
+      user-select: none;
+      transition: opacity 0.3s ease;
+    }
+    .stealth-toggle:hover {
+      opacity: 1;
+    }
+    /* Responsive */
+    @media (max-width: 600px) {
+      h1.title {
+        font-size: 2rem;
+      }
+      .input-container {
+        flex-direction: column;
+      }
+      button {
+        width: 100%;
+        padding: 0.75rem;
+      }
+      iframe {
+        height: 60vh;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="stealth-toggle" onclick="toggleStealth()">toggle stealth</div>
+  <div class="stealth-toggle" id="stealthBtn" onclick="toggleStealth()">toggle stealth</div>
+
   <h1 class="title">blue ruby</h1>
   <p class="subtitle">heya! pop your link down below!</p>
+
   <div class="input-container">
     <input
       type="text"
@@ -133,23 +196,77 @@
       autocorrect="off"
       autocapitalize="off"
     />
-    <button onclick="loadProxy()">go</button>
+    <button id="goBtn" onclick="loadProxy()">go</button>
   </div>
-  <div class="fake-ela-container" id="fakeELA">
-    <div class="fake-ela-title">ELA Reading Comprehension</div>
-    <div class="fake-ela-article">
-      <p>Climate change has become one of the most significant global challenges of our time. Scientists agree that human activities have accelerated the rate of global warming, largely due to the burning of fossil fuels. Rising temperatures lead to sea-level rise, more frequent extreme weather events, and loss of biodiversity. Addressing this crisis requires cooperation across nations and a commitment to sustainable practices.</p>
-    </div>
-    <ul class="fake-ela-questions">
-      <li>1. What is the main idea of the article?</li>
-      <li>2. Name two effects of climate change mentioned in the article.</li>
-      <li>3. Why is global cooperation important in addressing climate change?</li>
-    </ul>
-  </div>
+
   <iframe id="proxyFrame" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+
+  <div class="stealth-article-container" id="stealthArticle">
+    <h2>Photosynthesis: The Vital Process Powering Life on Earth</h2>
+    <p>Photosynthesis is a remarkable biochemical process through which green plants, algae, and certain bacteria convert sunlight into chemical energy. This energy conversion sustains almost all life on Earth by producing organic molecules that form the basis of food chains, and by releasing oxygen essential for respiration.</p>
+
+    <p>The process of photosynthesis occurs primarily in specialized cell organelles called chloroplasts, found in the leaves and other green parts of plants. At its core, photosynthesis transforms carbon dioxide and water into glucose, a sugar molecule, while simultaneously releasing oxygen as a byproduct. The overall simplified equation for photosynthesis can be expressed as:</p>
+    <p><em>6 CO<sub>2</sub> + 6 H<sub>2</sub>O + light energy → C<sub>6</sub>H<sub>12</sub>O<sub>6</sub> + 6 O<sub>2</sub></em></p>
+
+    <p>This conversion happens through two distinct stages: the light-dependent reactions and the light-independent reactions (also called the Calvin cycle).</p>
+
+    <h3>Light-dependent reactions</h3>
+    <p>In the first stage, chlorophyll pigments embedded in the thylakoid membranes of the chloroplast capture sunlight. The energy absorbed excites electrons to a higher energy state, which then travel through an electron transport chain. This process drives the synthesis of energy-rich molecules such as ATP (adenosine triphosphate) and NADPH (nicotinamide adenine dinucleotide phosphate), which store energy for use in the second stage. During these reactions, water molecules are split (photolysis), releasing oxygen gas into the atmosphere.</p>
+
+    <h3>The Calvin cycle (light-independent reactions)</h3>
+    <p>The second stage does not require light directly and takes place in the stroma of the chloroplast. It uses the ATP and NADPH generated in the first stage to convert atmospheric carbon dioxide into organic molecules, specifically glucose. The Calvin cycle involves a series of enzyme-catalyzed steps, beginning with carbon fixation where the enzyme Rubisco incorporates carbon dioxide into an organic molecule. Through a series of reductions and rearrangements, glucose is produced, which the plant can use as an energy source or store for later.</p>
+
+    <h3>Significance and ecological impact</h3>
+    <p>Photosynthesis is the foundation of the Earth’s ecosystems and atmosphere. By producing oxygen, it maintains the breathable atmosphere and supports aerobic life. Furthermore, the carbohydrates synthesized through photosynthesis fuel plant growth and, by extension, all herbivores and higher-level consumers. Fossil fuels themselves originated from ancient photosynthetic organisms, linking this process to human energy sources.</p>
+
+    <p>Despite its vital importance, photosynthesis is surprisingly inefficient. Only a small fraction of sunlight’s energy that hits plant leaves is converted into chemical energy. Researchers continue to study photosynthesis to improve crop yields and develop artificial photosynthesis technologies for renewable energy solutions.</p>
+
+    <h3>Variations in photosynthesis</h3>
+    <p>Not all photosynthetic organisms utilize the same mechanisms. C3 photosynthesis is the most common and involves the Calvin cycle as described. However, some plants have adapted to hot, dry climates with alternative pathways like C4 and CAM photosynthesis. These adaptations help reduce water loss and increase carbon fixation efficiency under challenging environmental conditions.</p>
+
+    <h3>Historical discoveries</h3>
+    <p>The discovery of photosynthesis was gradual, beginning in the 17th century with observations that plants need sunlight to grow. In the 18th century, Joseph Priestley demonstrated that plants restore air “injured” by burning candles or breathing animals. Later, Jan Ingenhousz showed that this “restoration” occurs only in the presence of light and green leaves. By the 20th century, scientists understood the chemical processes involved, culminating in the detailed elucidation of the light-dependent reactions and the Calvin cycle.</p>
+
+    <h3>Modern research and applications</h3>
+    <p>Today, photosynthesis remains a hot topic in research. Scientists explore genetic modifications to increase photosynthetic efficiency, aiming to enhance food production to meet growing global demands. Additionally, artificial photosynthesis, which seeks to mimic natural processes to generate clean fuels like hydrogen, holds promise for sustainable energy futures.</p>
+
+    <div class="stealth-questions">
+      <div class="stealth-question">1. What are the two main stages of photosynthesis?</div>
+      <input type="text" class="stealth-answer" placeholder="Your answer here" />
+
+      <div class="stealth-question">2. What molecule captures sunlight during the light-dependent reactions?</div>
+      <input type="text" class="stealth-answer" placeholder="Your answer here" />
+
+      <div class="stealth-question">3. What gas is produced as a byproduct of splitting water molecules?</div>
+      <input type="text" class="stealth-answer" placeholder="Your answer here" />
+
+      <div class="stealth-question">4. How do C4 and CAM plants differ from C3 plants?</div>
+      <input type="text" class="stealth-answer" placeholder="Your answer here" />
+
+      <div class="stealth-question">5. Why is photosynthesis important for maintaining Earth's atmosphere?</div>
+      <input type="text" class="stealth-answer" placeholder="Your answer here" />
+
+      <div class="stealth-question">6. Who was the scientist that demonstrated plants restore “injured” air?</div>
+      <input type="text" class="stealth-answer" placeholder="Your answer here" />
+
+      <div class="stealth-question">7. What are some modern research goals related to photosynthesis?</div>
+      <input type="text" class="stealth-answer" placeholder="Your answer here" />
+    </div>
+
+    <div class="citation">
+      Source: Adapted from <a href="https://www.britannica.com/science/photosynthesis" target="_blank" rel="noopener noreferrer">Encyclopedia Britannica - Photosynthesis</a>, text by The Editors of Encyclopaedia Britannica
+    </div>
+  </div>
+
   <script>
+    const stealthBtn = document.getElementById('stealthBtn');
+    const goBtn = document.getElementById('goBtn');
+    const urlInput = document.getElementById('url');
+    const proxyFrame = document.getElementById('proxyFrame');
+    const stealthArticle = document.getElementById('stealthArticle');
+
     function loadProxy() {
-      const input = document.getElementById('url').value.trim();
+      const input = urlInput.value.trim();
       if (!input) {
         alert("in order for it to work, you've gotta enter a url first!");
         return;
@@ -160,16 +277,31 @@
       }
       const encodedUrl = btoa(finalUrl);
       const proxyUrl = `https://uvcat.vercel.app/service/${encodedUrl}`;
-      const iframe = document.getElementById('proxyFrame');
-      iframe.style.display = 'block';
-      iframe.src = proxyUrl;
+      proxyFrame.style.display = 'block';
+      stealthArticle.style.display = 'none';
+      proxyFrame.src = proxyUrl;
     }
 
     function toggleStealth() {
-      document.body.classList.toggle('stealth-mode');
-      const fakeELA = document.getElementById('fakeELA');
-      const isStealth = document.body.classList.contains('stealth-mode');
-      fakeELA.style.display = isStealth ? 'block' : 'none';
+      const isStealth = document.body.classList.toggle('stealth-mode');
+
+      if (isStealth) {
+        // Entering stealth mode
+        proxyFrame.style.display = 'none';
+        stealthArticle.style.display = 'block';
+        goBtn.style.display = 'none';
+        urlInput.style.display = 'none';
+        stealthBtn.textContent = 'submit answers';
+      } else {
+        // Leaving stealth mode
+        stealthArticle.style.display = 'none';
+        proxyFrame.style.display = 'none';
+        goBtn.style.display = 'inline-block';
+        urlInput.style.display = 'inline-block';
+        stealthBtn.textContent = 'toggle stealth';
+        // Optionally clear answers here if you want:
+        // document.querySelectorAll('.stealth-answer').forEach(input => input.value = '');
+      }
     }
   </script>
 </body>
